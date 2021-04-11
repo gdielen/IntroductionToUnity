@@ -7,7 +7,7 @@ public class Vaccine : MonoBehaviour
 {
    // we need a speed variable: // (Start) moving speed vaccine
    [SerializeField] 
-   private float _vaccineSpeed = 5.0f;
+   private float _vaccineSpeed = 7.0f;  // or 5.0
 
 
    // Update is called once per frame
@@ -21,6 +21,6 @@ public class Vaccine : MonoBehaviour
         { 
             Destroy(this.gameObject);
         }
-    }  // This also deactivates the player releasing vaccines. Why??
-        // Wrong object linked to the script (do not use those in Hierarchy, but in Assets/Prefabs
+    }  
+    
 }
