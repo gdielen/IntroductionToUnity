@@ -244,12 +244,15 @@ public class Player : MonoBehaviour
     {
         _isUVLightOn = true;
         StartCoroutine(DeactivatePowerup());
+        _uiManager.PowerUp();
+
     }
     //PowerUp Ends
     IEnumerator DeactivatePowerup()
     {
         yield return new WaitForSeconds(_powerupTimeout);
         _isUVLightOn = false;
+        _uiManager.NoPowerUp();
     }
 
 }

@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     private int _score = 0;
     [SerializeField]
     private int health = 3;
+    [SerializeField]
+    private bool _powerOn = false;
     [SerializeField] 
     private Text _scoreText;
     [SerializeField] 
@@ -19,6 +21,8 @@ public class UIManager : MonoBehaviour
     private Text _gameStartText;
     [SerializeField] 
     private Text _gameOverText;
+    [SerializeField] 
+    private Text _powerUpText;
 
     void Start()
     {
@@ -27,6 +31,7 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _scoreText.gameObject.SetActive(false);
         _healthText.gameObject.SetActive(false);
+        _powerUpText.gameObject.SetActive(false);
         _scoreText.text = "Score: " + _score;
         _healthText.text = "Lives left: " + health;
 }
@@ -48,9 +53,18 @@ public class UIManager : MonoBehaviour
     {
         _gameOverText.gameObject.SetActive(true);
     }
+
+    public void PowerUp()
+    {
+        _powerUpText.gameObject.SetActive(true);
+    }
     
-    
-    
+     public void NoPowerUp()
+     {
+         _powerUpText.gameObject.SetActive(false);
+     }
+     
+   
     public void UpdateHealth(int health)
     {
         // Change Color??
