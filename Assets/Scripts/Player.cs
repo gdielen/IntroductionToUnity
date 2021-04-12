@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Packages.Rider.Editor.UnitTesting;
 // using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,6 +24,10 @@ public class Player : MonoBehaviour
         // reference to bloodManager:
         [SerializeField]
         private BloodManager _bloodManager;
+        [SerializeField] 
+        private UIManager _uiManager;
+        [SerializeField] 
+        private Corona _corona;
 
 
     [Header("Vaccination")]
@@ -35,7 +41,7 @@ public class Player : MonoBehaviour
             // private Transform _vaccineParent;
         [SerializeField]
         // variable for timeout PowerUp:
-        private float _powerupTimeout = 4.0f;
+        private float _powerupTimeout = 5.0f;
 
         
    [Header("Player")]
@@ -45,12 +51,6 @@ public class Player : MonoBehaviour
         // Lives of the Player:
         [SerializeField] 
         private int _lives = 3;
-        public int Lives
-        {
-            get { return _lives; }
- //           set { _lives = 3; }
-        }
-        
         // Rotate speed:
         [SerializeField]
         private float _rotateSpeed = 0f;
@@ -60,7 +60,11 @@ public class Player : MonoBehaviour
         [SerializeField]
         private bool  _isUVLightOn = false;
 
+        
+        
+    // ----------------------------------------------------------------------------------------------
 
+        
     // Start is called before the first frame update
     void Start()
     {
@@ -69,9 +73,9 @@ public class Player : MonoBehaviour
 
         // reset:
         _isUVLightOn = false;
-    }
+    } 
     
-    
+    // ----------------------------------------------------------------------------------------------
     
     // Update is called once per frame
     void Update()
@@ -84,7 +88,24 @@ public class Player : MonoBehaviour
         
         // Vaccinate
         Vaccinate();
+        
+        // Corona color:
+        _corona.ChangeCorona(_lives);
+      //  GameObject.FindWithTag("Virus").GetComponent<Corona>().ChangeCorona(_lives);
 
+      //  Color vaccines dependiung on health:
+      var vaccineRenderer = GameObject.FindGameObjectWithTag("Vaccine").GetComponent<Renderer>();
+      if (_lives == 2)
+      {
+          // Call SetColor using the shader property name "_Color" and setting the color to yellow
+          vaccineRenderer.material.SetColor("_Color", Color.yellow);
+      }
+      if (_lives == 1)
+      {
+          // Now setting the color to red
+          vaccineRenderer.material.SetColor("_Color", Color.red);
+      }
+      
     }
 
     
@@ -93,6 +114,8 @@ public class Player : MonoBehaviour
     {
         // reduce _lives by 1
         _lives -= 1;  // variables +=  -=  *=  etc. , also ++variable, variable++, --variable, variable--
+        // Update health-Info:
+        _uiManager.UpdateHealth(_lives);
         // speedup rotating when loosing a live:
         _rotateSpeed +=10;
         // if _lives = 0 destroy player
@@ -108,6 +131,7 @@ public class Player : MonoBehaviour
             {
                 Debug.LogError("SpawnManager not assigned!");
             }
+            _uiManager.GameOver();
             Destroy(this.gameObject);
         }
         else
@@ -130,7 +154,14 @@ public class Player : MonoBehaviour
             // }
         }
     }
-    
+
+
+    public void RelayScore(int score)
+    {
+        _uiManager.AddScore(score);
+    }
+
+
 
 
     // Player Movement Funktion:
@@ -214,9 +245,7 @@ public class Player : MonoBehaviour
         _isUVLightOn = true;
         StartCoroutine(DeactivatePowerup());
     }
-    
-    
-    //PowwerUp Ends
+    //PowerUp Ends
     IEnumerator DeactivatePowerup()
     {
         yield return new WaitForSeconds(_powerupTimeout);

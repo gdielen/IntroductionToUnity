@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,8 +13,14 @@ public class Corona : MonoBehaviour
     [SerializeField] 
     private float _infectionSpeed = 4.0f;  // or 5.0
 
-
-
+    public int _lives ;
+    
+    
+    public void ChangeCorona(int health)
+    {
+        _lives = health;
+    }
+    
 
     // Update is called once per frame
     void Update()
@@ -24,30 +31,6 @@ public class Corona : MonoBehaviour
         transform.Rotate(0.0f,2.5f,0.0f);
         
         
-        
-        // // Change color: Get the Renderer component
-        // var coronaRenderer = gameObject.GetComponent<Renderer>();
-        // // var component = gameObject.GetComponent<"Lives">();
-        // // var _lives = component.Lives;
-        // var _lives = 2;
-        // Debug.Log(_lives);
-        // // THIS does not have any effect (even idf we give the objects a mesch renderer):
-        // // var coronaRenderer = gameObject.GetComponentInChildren<Renderer>();
-        // if (_lives < 3)
-        // {
-        //     // Call SetColor using the shader property name "_Color" and setting the color to yellow
-        //     coronaRenderer.material.SetColor("_Color", Color.yellow);
-        //     Color parentColour = GetComponentsInParent<Renderer>()[1].material.color;
-        // }
-        // if (_lives < 2)
-        // {
-        //     // Now setting the color to red
-        //     coronaRenderer.material.SetColor("_Color", Color.red);
-        //     Color parentColour = GetComponentsInParent<Renderer>()[1].material.color;
-        // }
-
-
-
         // when bottom is reached restart from top
         if (transform.position.y < -5.2f)
         {
@@ -55,6 +38,24 @@ public class Corona : MonoBehaviour
                 7.5f,
                 0f);
         }
+        
+        // Change color: Get the Renderer component
+        // var coronaRenderer = gameObject.GetComponent<Renderer>();
+        // TODO: just colors one virus!
+        { var coronaRenderer = GameObject.FindGameObjectWithTag("Virus").GetComponent<Renderer>();
+            
+            if (_lives == 2)
+            {
+                // Call SetColor using the shader property name "_Color" and setting the color to yellow
+                coronaRenderer.material.SetColor("_Color", Color.yellow);
+            }
+            if (_lives == 1)
+            {
+                // Now setting the color to red
+                coronaRenderer.material.SetColor("_Color", Color.red);
+            }
+        }
+            
     }
 
     
@@ -62,9 +63,7 @@ public class Corona : MonoBehaviour
     {
         // this = Corona Virus
         // Other = Player oder Vaccine (je nach Kontext)
-        // Kollusionen plotten:
-        Debug.Log(other.name);
-        // Alternatives:
+        // Debug.Log(other.name);
         // Debug.LogWarning(other.name);
         // Debug.LogError(other.name);
 
@@ -72,26 +71,26 @@ public class Corona : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // damage player or destroy it   and virus:
-            Debug.LogWarning("player health not implemented");
+            // Debug.LogWarning("player health not implemented");
             // Damage() in Player.cs aufrufen:
             other.GetComponent<Player>().Dammage();
             Destroy(this.gameObject);
         }
-       
        // if the Corona collides with the Vaccine:
        else if (other.CompareTag("Vaccine"))
        {
-            Debug.LogWarning("Vaccine hit");
+            // Debug.LogWarning("Vaccine hit");
             // destroy both
-            // this has an issue, but what?? Other Object lebt kurz weiter, also zuerst other zerstören.
             if (! other.name.Contains("UVlight"))
             {
                 Destroy(other.gameObject);
 
             }
+            
+            GameObject.FindWithTag("Player").GetComponent<Player>().RelayScore(1);
             Destroy(this.gameObject);
        }
         
     }
-    
+
 }

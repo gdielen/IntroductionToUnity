@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Xml.Schema;
 // using UnityEditor.Build;
 using UnityEngine;
 
@@ -18,21 +19,33 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private float _powerUpSpawnRate = 30f;
 
-    private bool _spawningOn = true;
+    [SerializeField]
+    public bool _spawningOn = false;
      
-    
+    [SerializeField] 
+    private UIManager _uiManager;
+
     
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Spwanmanager Start");
         StartCoroutine(SpawnSystem());
         StartCoroutine(SpawnPowerup());
+
     }
 
     
     // Update is called once per frame
     void Update()
-    {
+    {        
+        Debug.Log("Spwanmanager Update");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Space pressed");
+            _uiManager.StartFinished();
+        }
+
     }
     
     
