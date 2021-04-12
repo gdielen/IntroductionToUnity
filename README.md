@@ -1,3 +1,3 @@
 # IntroductionToUnity
 Working hub for Introduction to Unity, Group 34.
-(I am on my own now.)
+(Guido Dielen, I am on my own now.)
