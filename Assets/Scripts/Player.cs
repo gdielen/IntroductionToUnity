@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         
         // Corona color:
         _corona.ChangeCorona(_lives);
-      //  GameObject.FindWithTag("Virus").GetComponent<Corona>().ChangeCorona(_lives);
+       GameObject.FindWithTag("Virus").GetComponent<Corona>().ChangeCorona(_lives);
 
       //  Color vaccines dependiung on health:
       var vaccineRenderer = GameObject.FindGameObjectWithTag("Vaccine").GetComponent<Renderer>();
