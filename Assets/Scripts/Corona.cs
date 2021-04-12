@@ -65,7 +65,7 @@ public class Corona : MonoBehaviour
     }
 
     
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         // this = Corona Virus
         // Other = Player oder Vaccine (je nach Kontext)
