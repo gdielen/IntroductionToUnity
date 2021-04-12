@@ -3,7 +3,8 @@ guid: 0280943c3bd74af469979af0e59e9c12
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _evalVaccinePrefab: {fileID: 8574888208154880241, guid: a482a80de8c24a94bbb24ef5410738c1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

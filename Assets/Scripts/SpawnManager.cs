@@ -15,7 +15,7 @@ public class SpawnManager : MonoBehaviour
         
         [Range(0f,1f)]
         [SerializeField] 
-        private float _chanceModifier = 0.01f;
+        private float _chanceModifier = 0.1f;
     
     [Header("Virus Prefabs")]
         [SerializeField] 
