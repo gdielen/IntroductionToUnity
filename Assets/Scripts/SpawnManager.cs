@@ -39,13 +39,6 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        Debug.Log("Spwanmanager Update");
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Space pressed");
-            _uiManager.StartFinished();
-        }
-
     }
     
     
