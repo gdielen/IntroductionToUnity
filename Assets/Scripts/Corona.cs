@@ -12,6 +12,8 @@ public class Corona : MonoBehaviour
     // (Start) moving speed Corona:
     [SerializeField] 
     private float _infectionSpeed = 4.0f;  // or 5.0
+    [SerializeField] 
+    private float _horizontalSpeed = 10.0f;  // or 5.0
 
     public int _lives ;
     
@@ -29,7 +31,11 @@ public class Corona : MonoBehaviour
         transform.Translate(Vector3.down * _infectionSpeed  * Time.deltaTime );
         // vaccine object rotating round y:
         transform.Rotate(0.0f,2.5f,0.0f);
-        
+
+        if (name.Contains("B117"))
+        {
+            transform.Translate(Vector3.right * Random.Range(-1.0f,1.0f) * _horizontalSpeed * Time.deltaTime);
+        }
         
         // when bottom is reached restart from top
         if (transform.position.y < -5.2f)
@@ -86,8 +92,16 @@ public class Corona : MonoBehaviour
                 Destroy(other.gameObject);
 
             }
+
+            if (name.Contains("B117"))
+            {
+                GameObject.FindWithTag("Player").GetComponent<Player>().RelayScore(3);
+            }
+            else
+            {
+                GameObject.FindWithTag("Player").GetComponent<Player>().RelayScore(1);
+            }
             
-            GameObject.FindWithTag("Player").GetComponent<Player>().RelayScore(1);
             Destroy(this.gameObject);
        }
         
